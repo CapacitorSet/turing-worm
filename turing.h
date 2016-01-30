@@ -24,3 +24,5 @@ typedef struct {
 	char direction; // 'r', 'l' or '*'. '*' doesn't move the tape.
 	state_t state_out;
 } rule_t;
+
+typedef enum{LEFT, RIGHT} direction_t;
