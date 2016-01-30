@@ -84,7 +84,7 @@ void init() {
 	because no cells are occupied.
 	*/
 	for (i = 0; i < TAPE_SIZE; i++)
-		virtual_tape[i].read_addr = virtual_tape[i].write_addr = physical_tape + i;
+		virtual_tape[i].read_addr = physical_tape + i;
 
 	rules_num = sizeof(rules)/sizeof(rules[0]);
 }
@@ -106,12 +106,11 @@ void physical_write_current(symbol_t value) {
 }
 
 void write(symbol_t value) {
-	physical_goto(virtual_current->write_addr);
+	physical_cell_t* write_addr = get_write_addr();
+	physical_goto(write_addr);
 	physical_write_current(value);
 	// The read pointer now points to the cell we just wrote
-	virtual_current->read_addr = virtual_current->write_addr;
-	// The write pointer now points to a fresh cell
-	virtual_current->write_addr = get_write_addr();
+	virtual_current->read_addr = write_addr;
 }
 
 int main() {

@@ -14,7 +14,6 @@ typedef struct {
 
 typedef struct {
 	physical_cell_t *read_addr; // Points to a readable cell
-	physical_cell_t *write_addr; // Points to a writable cell
 } virtual_symbol_t;
 
 typedef struct {
