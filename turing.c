@@ -10,8 +10,8 @@ const rule_t rules[] = {
 	{.state_in = BEGIN, .symbol_in = '*', .symbol_out = 'b', .direction = '*', .state_out = A}
 };
 
-virtual_symbol_t *virtual_current = virtual_tape; // equals &(virtual_tape[0])
-physical_cell_t *physical_current = physical_tape;
+virtual_symbol_t* virtual_current = virtual_tape; // equals &(virtual_tape[0])
+physical_cell_t* physical_current = physical_tape;
 state_t state = BEGIN;
 
 // Moves on the physical tape
@@ -84,13 +84,13 @@ void init() {
 	because no cells are occupied.
 	*/
 	for (i = 0; i < TAPE_SIZE; i++)
-		virtual_tape[i].read_addr = physical_tape + i;
+		virtual_tape[i] = physical_tape + i;
 
 	rules_num = sizeof(rules)/sizeof(rules[0]);
 }
 
 symbol_t read() {
-	physical_goto(virtual_current->read_addr);
+	physical_goto(*virtual_current);
 	return physical_read_current();
 }
 
@@ -110,7 +110,7 @@ void write(symbol_t value) {
 	physical_goto(write_addr);
 	physical_write_current(value);
 	// The read pointer now points to the cell we just wrote
-	virtual_current->read_addr = write_addr;
+	*virtual_current = write_addr;
 }
 
 int main() {

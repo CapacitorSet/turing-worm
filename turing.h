@@ -12,9 +12,7 @@ typedef struct {
 	_Bool written; // Is the cell not free?
 } physical_cell_t;
 
-typedef struct {
-	physical_cell_t *read_addr; // Points to a readable cell
-} virtual_symbol_t;
+typedef physical_cell_t* virtual_symbol_t;
 
 typedef struct {
 	state_t state_in;
