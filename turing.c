@@ -64,14 +64,17 @@ symbol_t physical_read_current() {
 // Get the first fresh cell
 physical_cell_t* get_write_addr() {
 	int i;
+	physical_cell_t* retval;
 
 	for (i = 0; i < TAPE_SIZE; i++) {
-		if (!physical_tape[i].written)
-			return physical_tape + i;
+		if (!physical_tape[i].written) {
+			retval = physical_tape + i;
+			break;
+		}
 	}
-	printf("Ran out of memory!\n");
 
-	return 0;
+	assert(retval != NULL);
+	return retval;
 }
 
 int rules_num;
@@ -137,6 +140,7 @@ int main() {
 		}
 
 		// Tape movement
+		assert(rule.direction == 'r' || rule.direction == 'l' || rule.direction == '*');
 		switch (rule.direction) {
 			case 'r':
 				virtualMove(RIGHT);
@@ -147,10 +151,6 @@ int main() {
 			case '*':
 				// Do nothing
 				break;
-			default:
-				printf("Unknown direction!\n");
-//				printf("%c", rule.direction);
-				return 1;
 		}
 		break;
 	}
